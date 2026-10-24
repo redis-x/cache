@@ -1,0 +1,5 @@
+{
+	"extends": "./node_modules/@kirick/lint/configs/tsconfig.base.json",
+	"include": ["src/"],
+	"exclude": ["dist/", "node_modules/"]
+}
