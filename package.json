@@ -1,0 +1,70 @@
+{
+	"name": "@redis-x/cache",
+	"version": "0.1.0",
+	"description": "Redis cache that computes each missing value once, guarded by a distributed lock.",
+	"publishConfig": {
+		"access": "public"
+	},
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"exports": {
+		".": {
+			"types": {
+				"import": "./dist/main.d.mts",
+				"require": "./dist/main.d.cts"
+			},
+			"import": "./dist/main.mjs",
+			"require": "./dist/main.cjs"
+		}
+	},
+	"engines": {
+		"node": ">=16.8"
+	},
+	"peerDependencies": {
+		"@redis-x/client": "^0.4.2",
+		"@redis-x/locker": "^0.2.3",
+		"redis": "^4.6"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.5.4",
+		"@kirick/lint": "0.4.1",
+		"@types/node": "^22.14.1",
+		"eslint": "10.7.0",
+		"oxlint": "1.74.0",
+		"publint": "0.3.25",
+		"tsdown": "0.23.0",
+		"type-fest": "5.10.0",
+		"typescript": "6.0.3",
+		"unplugin-unused": "0.6.0",
+		"vitest": "5.0.3"
+	},
+	"_devpack": {
+		"@redis-x/client": "../client",
+		"@redis-x/locker": "../locker"
+	},
+	"scripts": {
+		"build": "tsdown src/main.ts --format esm --format cjs --dts --publint --unused",
+		"check": "lint && bun run test && bun run build",
+		"redis:up": "docker ps | grep test-redis >/dev/null || docker run --rm -d -p 16379:6379 --name test-redis redis:7-alpine",
+		"test": "bun run build && bun run redis:up && bun test && npm run test:vitest",
+		"test:vitest": "vitest run --no-file-parallelism"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/redis-x/cache.git"
+	},
+	"keywords": [
+		"redis",
+		"redis-x",
+		"cache",
+		"caching"
+	],
+	"author": "Daniil Kirichenko (https://twitter.com/kirickme)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/redis-x/cache/issues"
+	},
+	"homepage": "https://github.com/redis-x/cache#readme"
+}
