@@ -59,7 +59,11 @@
 		"redis",
 		"redis-x",
 		"cache",
-		"caching"
+		"caching",
+		"read-through",
+		"memoize",
+		"distributed-lock",
+		"cache-stampede"
 	],
 	"author": "Daniil Kirichenko (https://twitter.com/kirickme)",
 	"license": "MIT",
