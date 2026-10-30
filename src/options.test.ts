@@ -1,4 +1,4 @@
-import { RedisLockerReleaseError } from '@redis-x/locker';
+import { RedisXLockerReleaseError } from '@redis-x/locker';
 import { afterEach, expect, test, vi } from 'vitest';
 import { redisClient, redisXClient } from '../test/redis.js';
 import { createName, singleGetter, sleep, TTL } from '../test/utils.js';
@@ -73,5 +73,5 @@ test('lock_ttl lets another instance compute once the lock expires', async () =>
 	expect(short_settled).toMatchObject({ status: 'rejected' });
 	expect(
 		short_settled.status === 'rejected' ? short_settled.reason : undefined,
-	).toBeInstanceOf(RedisLockerReleaseError);
+	).toBeInstanceOf(RedisXLockerReleaseError);
 });

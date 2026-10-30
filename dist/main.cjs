@@ -18,7 +18,7 @@ var RedisXCache = class {
 		this.#redisXClient = (0, _redis_x_client.getRedisXClient)(redisClient);
 		this.#options = options;
 		this.#getter = getter;
-		this.#locker = new _redis_x_locker.RedisMultiLocker(this.#redisXClient, `@x$cache:${options.name}`, {
+		this.#locker = new _redis_x_locker.RedisXMultiLocker(this.#redisXClient, `@x$cache:${options.name}`, {
 			ttl: options.lock_ttl,
 			retry_count: 1
 		});
@@ -99,7 +99,7 @@ var RedisXCache = class {
 		try {
 			lock = await this.#locker.lock(missing.map((slot) => slot.lock_id));
 		} catch (error) {
-			if (error instanceof _redis_x_locker.RedisLockerAcquireError) {
+			if (error instanceof _redis_x_locker.RedisXLockerAcquireError) {
 				await new Promise((resolve) => {
 					setTimeout(resolve, this.#options.retry_interval ?? 500);
 				});

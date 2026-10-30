@@ -1,6 +1,6 @@
 {
 	"name": "@redis-x/cache",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Redis cache that computes each missing value once, guarded by a distributed lock.",
 	"publishConfig": {
 		"access": "public"
@@ -24,7 +24,7 @@
 	},
 	"peerDependencies": {
 		"@redis-x/client": "^0.4.2",
-		"@redis-x/locker": "^0.2.3",
+		"@redis-x/locker": "^0.3.0",
 		"redis": "^4.6"
 	},
 	"devDependencies": {
@@ -59,7 +59,11 @@
 		"redis",
 		"redis-x",
 		"cache",
-		"caching"
+		"caching",
+		"read-through",
+		"memoize",
+		"distributed-lock",
+		"cache-stampede"
 	],
 	"author": "Daniil Kirichenko (https://twitter.com/kirickme)",
 	"license": "MIT",
