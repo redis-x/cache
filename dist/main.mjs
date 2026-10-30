@@ -1,5 +1,5 @@
 import { getRedisXClient, stringBulkToObject } from "@redis-x/client";
-import { RedisLockerAcquireError, RedisMultiLocker } from "@redis-x/locker";
+import { RedisXLockerAcquireError, RedisXMultiLocker } from "@redis-x/locker";
 // src/utils.ts
 const REDIS_PREFIX = "@x:cache";
 // src/main.ts
@@ -17,7 +17,7 @@ var RedisXCache = class {
 		this.#redisXClient = getRedisXClient(redisClient);
 		this.#options = options;
 		this.#getter = getter;
-		this.#locker = new RedisMultiLocker(this.#redisXClient, `@x$cache:${options.name}`, {
+		this.#locker = new RedisXMultiLocker(this.#redisXClient, `@x$cache:${options.name}`, {
 			ttl: options.lock_ttl,
 			retry_count: 1
 		});
@@ -98,7 +98,7 @@ var RedisXCache = class {
 		try {
 			lock = await this.#locker.lock(missing.map((slot) => slot.lock_id));
 		} catch (error) {
-			if (error instanceof RedisLockerAcquireError) {
+			if (error instanceof RedisXLockerAcquireError) {
 				await new Promise((resolve) => {
 					setTimeout(resolve, this.#options.retry_interval ?? 500);
 				});

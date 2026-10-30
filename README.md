@@ -115,7 +115,7 @@ All missing IDs of one `get()` call are computed under one lock, so up to 100 ID
 
 So only one instance computes a value at a time, and a cached value is not overwritten by a second computation.
 
-Set `lock_ttl` longer than your getter can take. If the lock expires while the getter runs, another instance can compute the same value, and `get()` throws `RedisLockerReleaseError` when it releases the expired lock.
+Set `lock_ttl` longer than your getter can take. If the lock expires while the getter runs, another instance can compute the same value, and `get()` throws `RedisXLockerReleaseError` when it releases the expired lock.
 
 If the getter throws, nothing is cached and `get()` throws the same error.
 

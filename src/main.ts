@@ -3,7 +3,7 @@ import {
 	type RedisXClient,
 	stringBulkToObject,
 } from '@redis-x/client';
-import { RedisLockerAcquireError, RedisMultiLocker } from '@redis-x/locker';
+import { RedisXLockerAcquireError, RedisXMultiLocker } from '@redis-x/locker';
 import type { JsonArray, JsonObject } from 'type-fest';
 import { REDIS_PREFIX, type RedisClient } from './utils.js';
 
@@ -59,7 +59,7 @@ export class RedisXCache<
 	#redisXClient: RedisXClient;
 	#options: RedisXCacheOptions<T, E>;
 	#getter: Getter<T, V>;
-	#locker: RedisMultiLocker;
+	#locker: RedisXMultiLocker;
 
 	/**
 	 * @param redisClient Client from the `redis` package or a RedisX client.
@@ -75,7 +75,7 @@ export class RedisXCache<
 		this.#options = options;
 		this.#getter = getter;
 
-		this.#locker = new RedisMultiLocker(
+		this.#locker = new RedisXMultiLocker(
 			this.#redisXClient,
 			`@x$cache:${options.name}`,
 			{
@@ -198,7 +198,7 @@ export class RedisXCache<
 		try {
 			lock = await this.#locker.lock(missing.map((slot) => slot.lock_id));
 		} catch (error) {
-			if (error instanceof RedisLockerAcquireError) {
+			if (error instanceof RedisXLockerAcquireError) {
 				await new Promise((resolve) => {
 					setTimeout(resolve, this.#options.retry_interval ?? 500);
 				});
